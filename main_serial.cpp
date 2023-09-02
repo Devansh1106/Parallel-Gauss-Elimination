@@ -8,7 +8,6 @@ using namespace std;
 int main()
 {
 	double** A;
-	//double** B;
 	double* b;
 	double* sol;
 	double m;
@@ -38,21 +37,7 @@ int main()
 	}
 	read_file.close();
 	
-	std::cout<<"Input done for matrix!"<<"\n";
-
-	//Copying the inputted matrix
-	// B = new double* [3];
-	// for (int i = 0; i < 3; i++)
-	// {
-	// 	B[i] = new double [3];
-	// } 
-	// for (int i = 0; i < 3; i++)
-	// {
-	// 	for (int j =0; j < 3; j++)
-	// 	{
-	// 		B[i][j] = A[i][j];
-	// 	}
-	// }	
+	std::cout<<"Input done for matrix!"<<"\n";	
 
 	//Inputting rhs vector
 
@@ -106,23 +91,8 @@ int main()
 		}
 	}
 
-	//Printing the RREF form
-
-	// for (int i=0; i < 3; i++)
-	// {
-	// 	for (int j=0; j < 3; j++)
-	// 	{
-	// 		cout<<A[i][j]<<"\t";
-	// 	}
-	// 	cout<<"\n";
-	// }
-	// for ( int i=0; i < 3; i++)
-	// {
-	// 	cout<<b[i]<<"\t";
-	// }
-
+	//Generating solution vector
 	sol = new double [N];
-	//sol[N-1] =0;
 	for ( int i=N-1; i > -1; i--)
 	{
 		for ( int j=N-1; j > i; j--)
@@ -131,6 +101,9 @@ int main()
 		}
 		sol[i] = b[i]/A[i][i];
 	}
+
+	//Writing solution to a file
+	
 	ofstream write_output("Solution_serial.txt");
 	assert(write_output.is_open());
 	for ( int i=0; i < N; i++)
@@ -139,12 +112,11 @@ int main()
 	}
 	write_output.close();
 	std::cout<<"\n"<<"Output done!";
-	// cout<<A[15][15]<<"\n";
-	// cout<<b[15]<<"\n";
 	auto end = chrono::steady_clock::now();  //for execution time
 	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+	
+	//free memory
 	delete [] A;
 	delete [] b;
 	delete [] sol;
-	//delete [] B;
 }
